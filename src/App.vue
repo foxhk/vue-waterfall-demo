@@ -21,7 +21,8 @@
 /**
  * ListCompleteDemo FlipListDemo SudokuDemo 来源 https://cn.vuejs.org/v2/guide/transitions.html
  * WaterFallDemo 来源 https://github.com/lfyfly/vue-waterfall-easy/blob/master/README-CN.md
- * VueAnimatedListDemo 来源 https://github.com/vuejs/vue-animated-list
+ * VueWaterFallEasyDemo 来源 https://github.com/lfyfly/vue-waterfall-easy
+ * VueWaterfallDemo 来源 https://github.com/MopTym/vue-waterfall
  */
 import ListCompleteDemo from "@/components/ListCompleteDemo";
 import FlipListDemo from "@/components/FlipListDemo";
