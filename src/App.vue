@@ -9,9 +9,9 @@
       >
         {{ tab }}
       </button>
-      <!--      <keep-alive>-->
-      <component v-bind:is="currentTabComponent" class="tab"></component>
-      <!--      </keep-alive>-->
+      <keep-alive>
+        <component v-bind:is="currentTabComponent" class="tab"></component>
+      </keep-alive>
     </div>
   </div>
 
@@ -35,7 +35,14 @@ import VueWaterfallDemo from "@/components/VueWaterfallDemo";
 export default {
   name: 'App',
   components: {
-    ListCompleteDemo, FlipListDemo, SudokuDemo, StaggeredListDemo, DynamicFadeDemo, VueWaterFallEasyDemo, FlexDemo, VueWaterfallDemo
+    ListCompleteDemo,
+    FlipListDemo,
+    SudokuDemo,
+    StaggeredListDemo,
+    DynamicFadeDemo,
+    VueWaterFallEasyDemo,
+    FlexDemo,
+    VueWaterfallDemo
   },
   data() {
     return {
