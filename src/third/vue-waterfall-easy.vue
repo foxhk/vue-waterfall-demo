@@ -7,11 +7,7 @@
     //- 为了防止loading 跟随滚动
     .vue-waterfall-easy-scroll(ref="scrollEl")
       slot(name="waterfall-head")
-      transition-group.vue-waterfall-easy(
-        :style="isMobile? '' :{width: colWidth*cols+'px',left:'50%', marginLeft: -1*colWidth*cols/2 +'px'}"
-        name="vue-waterfall-easy"
-        tag="div"
-      )
+      .vue-waterfall-easy(:style="isMobile? '' :{width: colWidth*cols+'px',left:'50%', marginLeft: -1*colWidth*cols/2 +'px'}")
         .img-box(
           v-for="(v,i) in imgsArr_c",
           :key="v.uid"
@@ -115,7 +111,7 @@ export default {
       isPreloading: true, // 正在预加载中，显示加载动画
       isPreloading_c: true,
       imgsArr_c: [], // 待图片预加载imgsArr完成，插入新的字段height之后,才会生成imgsArr_c，这时才开始渲染
-      loadedUids: [],
+      loadedUrls: new Set(),
       cols: NaN, // 需要根据窗口宽度初始化
       imgBoxEls: null, // 所有的.img-box元素
       beginIndex: 0, // 开始要排列的图片索引,首次为第二列的第一张图片，后续加载则为已经排列图片的下一个索引
@@ -181,27 +177,31 @@ export default {
   methods: {
     // ==1== 预加载
     preload() {
-      this.imgsArr.forEach((imgItem, imgIndex) => {
-        if (this.loadedUids.includes(imgItem.uid)) return // 只对新加载图片进行预加载
+      this.imgsArr.forEach((imgItem, imgIndex, arr) => {
+        if (this.loadedUrls.has(imgItem.src)) return // 只对新加载图片进行预加载
         // 无图时
         if (!imgItem[this.srcKey]) {
           this.imgsArr[imgIndex]._height = '0'
-          this.loadedUids.push(imgItem.uid);
-          // 支持无图模式
-          this.$emit('preloaded')
+          if(imgIndex === arr.length - 1) {
+            // 支持无图模式
+            this.$emit('preloaded')
+          }
           return
         }
         let oImg = new Image()
-        oImg.src = imgItem[this.srcKey]
+        let srcUrl = imgItem[this.srcKey];
+        oImg.src = srcUrl
         oImg.onload = oImg.onerror = (e) => {
-          this.loadedUids.push(imgItem.uid);
+          this.loadedUrls.add(srcUrl);
           // 预加载图片，计算图片容器的高
           this.imgsArr[imgIndex]._height = e.type === 'load' ? Math.round(this.imgWidth_c / (oImg.width / oImg.height)) : (this.isMobile ? this.imgWidth_c : this.imgWidth)
           if (e.type === 'error') {
             this.imgsArr[imgIndex]._error = true
             this.$emit('imgError', this.imgsArr[imgIndex])
           }
-          this.$emit('preloaded')
+          if(imgIndex === arr.length - 1) {
+            this.$emit('preloaded')
+          }
         }
       })
     },
@@ -325,7 +325,7 @@ export default {
     reset() {
       this.imgsArr_c = []
       this.beginIndex = 0
-      this.loadedUids = []
+      this.loadedUrls = new Set();
       this.isFirstLoad = true
       this.isPreloading = true
       this.scroll()
@@ -356,14 +356,14 @@ export default {
   .vue-waterfall-easy {
     position: absolute;
     width: 100%; // 移动端生效
-    @keyframes show-card {
-      0% {
-        transform: scale(0.5);
-      }
-      100% {
-        transform: scale(1);
-      }
-    }
+    //@keyframes show-card {
+    //  0% {
+    //    transform: scale(0.5);
+    //  }
+    //  100% {
+    //    transform: scale(1);
+    //  }
+    //}
     & > .img-box {
       position: absolute;
       box-sizing: border-box;
@@ -442,7 +442,7 @@ export default {
     }
   }
 }
-.vue-waterfall-easy-move {
-  transition: transform 1s;
-}
+//.vue-waterfall-easy-move {
+//  transition: transform 1s;
+//}
 </style>

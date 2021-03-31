@@ -30,16 +30,18 @@ import VueWaterFallEasyDemo from "@/components/VueWaterFallEasyDemo";
 import StaggeredListDemo from "@/components/StaggeredListDemo";
 import DynamicFadeDemo from "@/components/DynamicFadeDemo";
 import FlexDemo from "@/components/FlexDemo";
+import VueWaterfallDemo from "@/components/VueWaterfallDemo";
 
 export default {
   name: 'App',
   components: {
-    ListCompleteDemo, FlipListDemo, SudokuDemo, StaggeredListDemo, DynamicFadeDemo, VueWaterFallEasyDemo, FlexDemo
+    ListCompleteDemo, FlipListDemo, SudokuDemo, StaggeredListDemo, DynamicFadeDemo, VueWaterFallEasyDemo, FlexDemo, VueWaterfallDemo
   },
   data() {
     return {
-      currentTab: "ListCompleteDemo",
-      tabs: ["ListCompleteDemo", "FlipListDemo", "SudokuDemo", "StaggeredListDemo", "DynamicFadeDemo", "VueWaterFallEasyDemo", "FlexDemo"],
+      currentTab: "VueWaterfallDemo",
+      tabs: ["ListCompleteDemo", "FlipListDemo", "SudokuDemo", "StaggeredListDemo", "DynamicFadeDemo",
+        "VueWaterFallEasyDemo", "FlexDemo", "VueWaterfallDemo"],
     }
   },
   computed: {
